@@ -1,4 +1,3 @@
-
 function selecionaPrato(prato) {
     const botaoAnterior = document.querySelector(".containerPratos .selecao")
 
@@ -16,7 +15,7 @@ function selecionaPrato(prato) {
 
     const atualizaQuadro = document.querySelector('.confirmaPrato')
     atualizaQuadro.innerHTML = `${nomePrato}: ${precoPrato}`
-    return precoPrato
+    return [precoPrato, nomePrato]
 }
 
 function selecionaBebida(bebida) {
@@ -37,7 +36,7 @@ function selecionaBebida(bebida) {
     const atualizaQuadro = document.querySelector('.confirmaBebida')
     atualizaQuadro.innerHTML = `${nomeBebida}: ${precoBebida}`
 
-    return precoBebida
+    return [precoBebida, nomeBebida]
 }
 
 function selecionaSobremesas(sobremesa) {
@@ -58,27 +57,30 @@ function selecionaSobremesas(sobremesa) {
     const atualizaQuadro = document.querySelector('.confirmaSobremesa')
     atualizaQuadro.innerHTML = `${nomeSobremesa}: ${precoSobremesa}`
 
-    return precoSobremesa
+    return [precoSobremesa, nomeSobremesa]
 }
 
 function contaTotal() {
     // Preço Prato
 
     const getPrecoPrato = document.querySelector(".containerPratos .selecao");
-    let precoPrato = parseFloat(selecionaPrato(getPrecoPrato).replace('R$ ', '').replace(',', '.'))
+    let [precoPrato, nomePrato] = selecionaPrato(getPrecoPrato);
+    let precoPratoCorreto = parseFloat(precoPrato.replace('R$ ', '').replace(',', '.'));
     
     // Preço Bebida
 
     const getPrecoBebida = document.querySelector(".containerBebidas .selecao");
-    let precoBebida = parseFloat(selecionaBebida(getPrecoBebida).replace('R$ ', '').replace(',', '.'))
+    let [precoBebida, nomeBebida] = selecionaBebida(getPrecoBebida);
+    let precoBebidaCorreto = parseFloat(precoBebida.replace('R$ ', '').replace(',', '.'));
+
      
     //  Preço Sobremesa
 
     const getPrecoSobremesa = document.querySelector(".containerSobremesas .selecao");
-    let precoSobremesa = parseFloat(selecionaSobremesas(getPrecoSobremesa).replace('R$ ', '').replace(',', '.'))
-     
+    let [precoSobremesa, nomeSobremesa] = selecionaSobremesas(getPrecoSobremesa);
+    let precoSobremesaCorreto = parseFloat(precoSobremesa.replace('R$ ', '').replace(',', '.'))
 
-    const somaTotal = (precoPrato + precoBebida + precoSobremesa).toFixed(2)
+    const somaTotal = (precoPratoCorreto + precoBebidaCorreto + precoSobremesaCorreto).toFixed(2)
 
     const atualizaQuadro = document.querySelector('.totalCompraFinal')
     atualizaQuadro.innerHTML = `Total: R$ ${somaTotal}`
@@ -103,17 +105,28 @@ function habilitarBotao() {
 }
 
 function encode() {
-    // const link = document.getElementById("linkWhats")
-    // const url = link.href;
+    let infoPratos = document.querySelector(".containerPratos .selecao");
+    let [precoPrato, nomePrato] = selecionaPrato(infoPratos);
 
-    // const frase = new URL(url)
-    // const dominio = frase.hostname;
-    // const nova = dominio.replace()
-    // console.log(dominio)
+    let infoBebidas = document.querySelector(".containerBebidas .selecao");
+    let [precoBebida, nomeBebida] = selecionaBebida(infoBebidas);
 
-    // console.log(selecionaPrato())
-    let valor = document.querySelector(".containerPratos .selecao")
-    let valorNovo = selecionaPrato(valor)
+    let infoSobremesas = document.querySelector(".containerSobremesas .selecao");
+    let [precoSobremesa, nomeSobremesa] = selecionaSobremesas(infoSobremesas);
+
+    let valorTotal = contaTotal()
+
+    
+    const novoTexto = `Olá, gostaria de fazer o pedido: 
+    - Prato: ${nomePrato.trim()}
+    - Bebida: ${nomeBebida.trim()}
+    - Sobremesa: ${nomeSobremesa.trim()}
+    Total: ${valorTotal}`;
+    const numero = "5511952473534";
+    const urlBase = `https://wa.me/${numero}?text=`;
+    const urlCompleta = urlBase + encodeURIComponent(novoTexto);
+
+    document.getElementById("linkWhats").href = urlCompleta;
 }
 
 function botaoFinalizar() {
