@@ -85,7 +85,7 @@ function contaTotal() {
     const atualizaQuadro = document.querySelector('.totalCompraFinal')
     atualizaQuadro.innerHTML = `Total: R$ ${somaTotal}`
 
-    return somaTotal
+    return [somaTotal, nomePrato, nomeBebida, nomeSobremesa]
 }
 
 function habilitarBotao() {
@@ -104,24 +104,14 @@ function habilitarBotao() {
     }
 }
 
-function encode() {
-    let infoPratos = document.querySelector(".containerPratos .selecao");
-    let [precoPrato, nomePrato] = selecionaPrato(infoPratos);
-
-    let infoBebidas = document.querySelector(".containerBebidas .selecao");
-    let [precoBebida, nomeBebida] = selecionaBebida(infoBebidas);
-
-    let infoSobremesas = document.querySelector(".containerSobremesas .selecao");
-    let [precoSobremesa, nomeSobremesa] = selecionaSobremesas(infoSobremesas);
-
-    let valorTotal = contaTotal()
-
+function whats() {
+    let [soma, nomePrato, nomeBebida, nomeSobremesa] = contaTotal()
     
     const novoTexto = `Olá, gostaria de fazer o pedido: 
     - Prato: ${nomePrato.trim()}
     - Bebida: ${nomeBebida.trim()}
     - Sobremesa: ${nomeSobremesa.trim()}
-    Total: ${valorTotal}`;
+    Total: ${soma}`;
     const numero = "5511952473534";
     const urlBase = `https://wa.me/${numero}?text=`;
     const urlCompleta = urlBase + encodeURIComponent(novoTexto);
@@ -134,7 +124,6 @@ function botaoFinalizar() {
     oculto.classList.remove('oculto')
 
     contaTotal()
-
 }
 
 function cancelar() {
