@@ -7,6 +7,7 @@ function selecionaPrato(prato) {
 
     prato.classList.add("selecao")
     habilitarBotao()
+
     const nomePratoFinal = document.querySelector('.containerPratos .selecao .formatTituloOpcao')
     const nomePrato = nomePratoFinal.innerHTML
 
@@ -101,6 +102,7 @@ function habilitarBotao() {
 
     if(possuiSelecaoPrato && possuiSelecaoBebidas && possuiSelecaoSobremesa){
         botao.removeAttribute('disabled')
+        botao.innerHTML = "Finalizar pedido!"
     }
 }
 
@@ -122,6 +124,8 @@ function whats() {
 function botaoFinalizar() {
     const oculto = document.querySelector('.telaFinal')
     oculto.classList.remove('oculto')
+
+
 
     contaTotal()
 }
