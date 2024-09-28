@@ -1,62 +1,84 @@
-function selecionaPrato(prato) {
+function selecionaPrato(prato, validacao=false) {
     const botaoAnterior = document.querySelector(".containerPratos .selecao")
-
-    if(botaoAnterior !== null) {
+    
+    if(botaoAnterior !== null && botaoAnterior !== prato) {
         botaoAnterior.classList.remove("selecao")
     }
-
-    prato.classList.add("selecao")
+    if(botaoAnterior == prato && !validacao) {
+        prato.classList.remove("selecao")
+    }
+     else {
+        prato.classList.add("selecao")
+    }
+    
+    const nomePratoFinal = document.querySelector('.containerPratos .selecao .formatTituloOpcao')
+    var precoPratoFinal = document.querySelector('.containerPratos .selecao .preco')
+    const atualizaQuadro = document.querySelector('.confirmaPrato')
+    
+    if(nomePratoFinal !== null && precoPratoFinal !== null && atualizaQuadro !== null) {
+        var nomePrato = nomePratoFinal.innerHTML
+        var precoPrato = precoPratoFinal.innerHTML
+        atualizaQuadro.innerHTML = `${nomePrato}: ${precoPrato}`
+        
+    }
+    
     habilitarBotao()
 
-    const nomePratoFinal = document.querySelector('.containerPratos .selecao .formatTituloOpcao')
-    const nomePrato = nomePratoFinal.innerHTML
-
-    const precoPratoFinal = document.querySelector('.containerPratos .selecao .preco')
-    let precoPrato = precoPratoFinal.innerHTML
-
-    const atualizaQuadro = document.querySelector('.confirmaPrato')
-    atualizaQuadro.innerHTML = `${nomePrato}: ${precoPrato}`
     return [precoPrato, nomePrato]
 }
 
-function selecionaBebida(bebida) {
+function selecionaBebida(bebida, validacao=false) {
     const botaoAnterior = document.querySelector(".containerBebidas .selecao")
 
-    if(botaoAnterior !== null) {
+    if(botaoAnterior !== null && botaoAnterior !== bebida) {
         botaoAnterior.classList.remove("selecao")
     }
+    if(botaoAnterior == bebida && !validacao) {
+        botaoAnterior.classList.remove("selecao")
+    }
+    else {
+        bebida.classList.add("selecao")
+    }
 
-    bebida.classList.add("selecao")
-    habilitarBotao()
     const nomeBebidaFinal = document.querySelector('.containerBebidas .selecao .formatTituloOpcao')
-    const nomeBebida = nomeBebidaFinal.innerHTML
-
     const precoBebidaFinal = document.querySelector('.containerBebidas .selecao .preco')
-    const precoBebida = precoBebidaFinal.innerHTML
-
     const atualizaQuadro = document.querySelector('.confirmaBebida')
-    atualizaQuadro.innerHTML = `${nomeBebida}: ${precoBebida}`
+    
+    if(nomeBebidaFinal !== null && precoBebidaFinal !== null && atualizaQuadro !== null) {
+        var nomeBebida = nomeBebidaFinal.innerHTML
+        var precoBebida = precoBebidaFinal.innerHTML
+        atualizaQuadro.innerHTML = `${nomeBebida}: ${precoBebida}`
+    }
+    
+    habilitarBotao()
 
     return [precoBebida, nomeBebida]
 }
 
-function selecionaSobremesas(sobremesa) {
+function selecionaSobremesas(sobremesa, validacao=false) {
     const botaoAnterior = document.querySelector(".containerSobremesas .selecao")
 
-    if(botaoAnterior !== null) {
+    if(botaoAnterior !== null && botaoAnterior !== sobremesa) {
         botaoAnterior.classList.remove("selecao")
     }
+    if(botaoAnterior == sobremesa && !validacao) {
+        botaoAnterior.classList.remove("selecao")
+    }
+    else {
+        sobremesa.classList.add("selecao")
+    }
 
-    sobremesa.classList.add("selecao")
-    habilitarBotao()
     const nomeSobremesaFinal = document.querySelector('.containerSobremesas .selecao .formatTituloOpcao')
-    const nomeSobremesa = nomeSobremesaFinal.innerHTML
-
     const precoSobremesaFinal = document.querySelector('.containerSobremesas .selecao .preco')
-    const precoSobremesa = precoSobremesaFinal.innerHTML
-
     const atualizaQuadro = document.querySelector('.confirmaSobremesa')
-    atualizaQuadro.innerHTML = `${nomeSobremesa}: ${precoSobremesa}`
+    
+    if(nomeSobremesaFinal !== null && precoSobremesaFinal !== null && atualizaQuadro !== null) {
+        var nomeSobremesa = nomeSobremesaFinal.innerHTML
+        var precoSobremesa = precoSobremesaFinal.innerHTML
+        atualizaQuadro.innerHTML = `${nomeSobremesa}: ${precoSobremesa}`
+    }
+    
+    habilitarBotao()
 
     return [precoSobremesa, nomeSobremesa]
 }
@@ -64,24 +86,24 @@ function selecionaSobremesas(sobremesa) {
 function contaTotal() {
     // Preço Prato
 
-    const getPrecoPrato = document.querySelector(".containerPratos .selecao");
-    let [precoPrato, nomePrato] = selecionaPrato(getPrecoPrato);
-    let precoPratoCorreto = parseFloat(precoPrato.replace('R$ ', '').replace(',', '.'));
-    
+    var getPrecoPrato = document.querySelector(".containerPratos .selecao");
+    var [precoPrato, nomePrato] = selecionaPrato(getPrecoPrato, true);
+    var precoPratoCorreto = parseFloat(precoPrato.replace("R$", "").replace(",", "."));
+
     // Preço Bebida
 
     const getPrecoBebida = document.querySelector(".containerBebidas .selecao");
-    let [precoBebida, nomeBebida] = selecionaBebida(getPrecoBebida);
-    let precoBebidaCorreto = parseFloat(precoBebida.replace('R$ ', '').replace(',', '.'));
+    let [precoBebida, nomeBebida] = selecionaBebida(getPrecoBebida, true);
+    let precoBebidaCorreto = parseFloat(precoBebida.replace("R$", "").replace(",", "."));
 
      
     //  Preço Sobremesa
 
     const getPrecoSobremesa = document.querySelector(".containerSobremesas .selecao");
-    let [precoSobremesa, nomeSobremesa] = selecionaSobremesas(getPrecoSobremesa);
-    let precoSobremesaCorreto = parseFloat(precoSobremesa.replace('R$ ', '').replace(',', '.'))
+    let [precoSobremesa, nomeSobremesa] = selecionaSobremesas(getPrecoSobremesa, true);
+    let precoSobremesaCorreto = parseFloat(precoSobremesa.replace("R$", "").replace(",", "."))
 
-    const somaTotal = (precoPratoCorreto + precoBebidaCorreto + precoSobremesaCorreto).toFixed(2)
+    var somaTotal = (precoPratoCorreto + precoBebidaCorreto + precoSobremesaCorreto).toFixed(2)
 
     const atualizaQuadro = document.querySelector('.totalCompraFinal')
     atualizaQuadro.innerHTML = `Total: R$ ${somaTotal}`
@@ -104,6 +126,10 @@ function habilitarBotao() {
         botao.removeAttribute('disabled')
         botao.innerHTML = "Finalizar pedido!"
     }
+     else {
+        botao.setAttribute('disabled', '')
+        botao.innerHTML = "Selecione os 3 itens para fechar o pedido"
+     }
 }
 
 function whats() {
@@ -124,8 +150,6 @@ function whats() {
 function botaoFinalizar() {
     const oculto = document.querySelector('.telaFinal')
     oculto.classList.remove('oculto')
-
-
 
     contaTotal()
 }
